@@ -1,0 +1,21 @@
+{
+  "name": "nestjs-demo-app--parent",
+  "description": "Parent package for both the NestJS demo app. This is a set convenience scripts for running the app from the project root directory.",
+  "author": "Wristband",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=18.12.1",
+    "npm": ">=8.19.2"
+  },
+  "scripts": {
+    "build": "npm run build --prefix vue-frontend",
+    "clean": "rm -rf vue-frontend/dist/; rm -rf nestjs-backend/dist/",
+    "dev": "concurrently \"npm start --prefix vue-frontend\" \"npm run dev --prefix nestjs-backend\"",
+    "install-all": "npm install --prefix vue-frontend; npm install --prefix nestjs-backend",
+    "start": "npm start --prefix nestjs-backend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
