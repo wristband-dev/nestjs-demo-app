@@ -18,8 +18,6 @@ export class AuthController {
   constructor(
     @Inject('WristbandStandardLoginAuthService')
     private readonly wristbandAuth: WristbandExpressAuthService,
-    @Inject('WristbandPopupLoginAuthService')
-    private readonly wristbandAuthWithPopup: WristbandExpressAuthService,
     @Inject(CsrfService)
     private readonly csrfService: CsrfService,
   ) {}
@@ -55,16 +53,7 @@ export class AuthController {
     res.header('Cache-Control', 'no-store');
     res.header('Pragma', 'no-cache');
     return await res.redirect(
-      `${env.SIGNUP_URL}?client_id=${env.WBAUTH__CLIENT_ID}`,
-    );
-  }
-
-  @Get('signup-with-popup')
-  async signupWithPopup(@Res() res: Response): Promise<void> {
-    res.header('Cache-Control', 'no-store');
-    res.header('Pragma', 'no-cache');
-    return await res.redirect(
-      `${env.SIGNUP_URL}?client_id=${env.WBAUTH__POPUP_CLIENT_ID}`,
+      `${env.WBAUTH__SIGNUP_URL}?client_id=${env.WBAUTH__CLIENT_ID}`,
     );
   }
 
@@ -75,14 +64,6 @@ export class AuthController {
   @Get('login')
   async login(@Req() req: Request, @Res() res: Response): Promise<void> {
     return await this.wristbandAuth.login(req, res);
-  }
-
-  @Get('login-with-popup')
-  async loginWithPopup(
-    @Req() req: Request,
-    @Res() res: Response,
-  ): Promise<void> {
-    return await this.wristbandAuthWithPopup.login(req, res);
   }
 
   // ////////////////////////////////////
@@ -106,47 +87,6 @@ export class AuthController {
       return res.redirect(
         callbackData.returnUrl || `${env.HOME_URL}/hello-world`,
       );
-    } catch (error) {
-      console.error('Callback Error:', error);
-      res
-        .status(500)
-        .json({ message: 'An error occurred during the process.' });
-    }
-  }
-
-  @Get('callback-with-popup')
-  async callbackWithPopup(
-    @Req() req: Request,
-    @Res() res: Response,
-  ): Promise<void> {
-    try {
-      const callbackDataResult = await this.wristbandAuthWithPopup.callback(
-        req,
-        res,
-      );
-      const { result, callbackData } = callbackDataResult;
-
-      if (result === CallbackResultType.REDIRECT_REQUIRED) {
-        // The SDK will have already invoked the redirect() function, so we just stop execution here.
-        return;
-      }
-
-      await this.initSessionAndCsrf(req, res, callbackData);
-
-      // Return HTML that communicates with the parent window to close the popup.
-      const returnUrl = callbackData?.returnUrl
-        ? `, returnUrl: '${callbackData.returnUrl}'`
-        : '';
-      const successHtml = `
-          <script>
-            if (window.opener) {
-              window.opener.postMessage({ type: 'login_success'${returnUrl} }, '*');
-              window.close();
-            }
-          </script>
-        `;
-      res.send(successHtml);
-      return;
     } catch (error) {
       console.error('Callback Error:', error);
       res
@@ -180,25 +120,5 @@ export class AuthController {
         .status(500)
         .json({ message: 'An error occurred during the process.' });
     }
-  }
-
-  // ////////////////////////////////////
-  //  CHECK AUTH STATE
-  // ////////////////////////////////////
-
-  @Get('auth-state')
-  async authState(@Req() req: Request, @Res() res: Response): Promise<void> {
-    res.header('Cache-Control', 'no-store');
-    res.header('Pragma', 'no-cache');
-
-    const { session } = req;
-
-    if (!session || !session.isAuthenticated || !session.csrfSecret) {
-      res.status(200).json({ isAuthenticated: false });
-      return;
-    }
-
-    this.csrfService.updateCsrfTokenAndCookie(req, res);
-    res.status(200).json({ isAuthenticated: true });
   }
 }

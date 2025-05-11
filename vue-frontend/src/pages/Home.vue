@@ -10,7 +10,6 @@ import SubscribeForm from "../partials/SubscribeForm.vue";
 import Footer from "../partials/Footer.vue";
 import Table from "../partials/Table.vue";
 
-import { useAuthPopup } from '../composables/useAuthPopup';
 import { useWristbandStore } from "../stores/wristbandStore";
 
 const adminRole = process.env.VUE_APP_ADMIN_ROLE;
@@ -22,7 +21,6 @@ const Show = ref(true);
 const loading = ref(false);
 
 const { clearSession, state } = useWristbandStore();
-const { openAuthPopup } = useAuthPopup();
 
 const handleUpdateData = (data) => {
   Data.value = data;
@@ -48,9 +46,19 @@ const scrollToTarget = () => {
   }
 };
 
+const login = () => {
+  clearSession();
+  router.push("/login");
+};
+
 const logout = () => {
   clearSession();
   router.push("/logout");
+};
+
+const signup = () => {
+  clearSession();
+  router.push("/signup");
 };
 
 onMounted(() => {
@@ -73,10 +81,9 @@ onMounted(() => {
       <section>
         <div class="pt-32 pb-12 md:pt-44 md:pb-20">
           <div class="px-4 sm:px-6">
-            <PageHeader class="mb-12" title="AI for API Governance"
-              description="Enhancing API Performance with AI-Driven Detection and Remediation">
-              <span class="text-gray-300 mx-1"></span> AI Trained on 10k Public
-              APIs.
+            <PageHeader class="mb-12" title="Wristband NestJS Auth SDK"
+              description="">
+              <span class="text-gray-300 mx-1"></span> Wristband NestJS Auth Demo App
             </PageHeader>
             <div class="max-w-3xl mx-auto mb-12">
               <div class="flex items-center justify-center space-x-3">
@@ -113,7 +120,7 @@ onMounted(() => {
                   <div v-else>
                     <button
                       class="relative inline-flex items-center justify-center mr-4 px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 border-black rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
-                      @click="() => openAuthPopup(true)">
+                      @click="() => signup()">
                       <span class="relative z-10">Signup</span>
                       <span
                         class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"
@@ -121,7 +128,7 @@ onMounted(() => {
                     </button>
                     <button
                       class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 border-black rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
-                      @click="() => openAuthPopup(false)">
+                      @click="() => login()">
                       <span class="relative z-10">Login</span>
                       <span
                         class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"

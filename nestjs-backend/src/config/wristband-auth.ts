@@ -13,7 +13,7 @@ const COMMON_WRISTBAND_AUTH_CONFIGURATION: Omit<
   scopes: resolveScopesEnvVar(env.WBAUTH__SCOPES),
   useCustomDomains: env.WBAUTH__USE_CUSTOM_DOMAINS === 'true',
   useTenantSubdomains: env.WBAUTH__USE_TENANT_SUBDOMAINS === 'true',
-  wristbandApplicationDomain: env.WBAUTH__APPLICATION_DOMAIN,
+  wristbandApplicationDomain: env.WBAUTH__APPLICATION_VANITY_DOMAIN,
 };
 
 export const WRISTBAND_AUTH_CONFIGURATION: AuthConfig = {
@@ -24,10 +24,3 @@ export const WRISTBAND_AUTH_CONFIGURATION: AuthConfig = {
   redirectUri: env.WBAUTH__CALLBACK_URL,
 };
 
-export const WRISTBAND_AUTH_WITH_POPUP_CONFIGURATION: AuthConfig = {
-  ...COMMON_WRISTBAND_AUTH_CONFIGURATION,
-  clientId: env.WBAUTH__POPUP_CLIENT_ID,
-  clientSecret: env.WBAUTH__POPUP_CLIENT_SECRET,
-  loginUrl: env.WBAUTH__POPUP_LOGIN_URL,
-  redirectUri: env.WBAUTH__POPUP_CALLBACK_URL,
-};

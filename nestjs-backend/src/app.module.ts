@@ -4,10 +4,7 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { WristbandExpressAuthModule } from '@wristband/nestjs-auth';
 
 // Wristband SDK Configurations
-import {
-  WRISTBAND_AUTH_CONFIGURATION,
-  WRISTBAND_AUTH_WITH_POPUP_CONFIGURATION,
-} from './config/wristband-auth';
+import { WRISTBAND_AUTH_CONFIGURATION } from './config/wristband-auth';
 
 // Other Configurations
 import csrfConfig from './config/csrf.config';
@@ -45,10 +42,6 @@ import { RequestTrackingMiddleware } from './common/middleware/request-tracking.
     WristbandExpressAuthModule.forRoot(
       WRISTBAND_AUTH_CONFIGURATION,
       'WristbandStandardLoginAuthService',
-    ),
-    WristbandExpressAuthModule.forRoot(
-      WRISTBAND_AUTH_WITH_POPUP_CONFIGURATION,
-      'WristbandPopupLoginAuthService',
     ),
   ],
 })

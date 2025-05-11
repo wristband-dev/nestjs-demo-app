@@ -20,13 +20,6 @@ export const useWristbandStore = defineStore("wristband", () => {
 
   const validateAndGetSession = async () => {
     try {
-      const authStateResponse = await apiClient.get("/auth/auth-state");
-      if (authStateResponse.status !== 200 || !authStateResponse.data.isAuthenticated) {
-        setState({ isAuthenticated: false, isLoading: false });
-        await nextTick();
-        return;
-      }
-
       const sessionResponse = await apiClient.get("/session");
       if (sessionResponse.status !== 200) {
         setState({ isAuthenticated: false, isLoading: false });
