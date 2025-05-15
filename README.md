@@ -46,7 +46,7 @@ You can also follow the [Demo App Guide](https://docs.wristband.dev/docs/setting
 
 After completing demo app creation, you will be prompted with values that you should use to create environment variables for the Express server. You should see:
 
-- `APPLICATION_DOMAIN`
+- `APPLICATION_VANITY_DOMAIN`
 - `CLIENT_ID`
 - `CLIENT_SECRET`
 
@@ -149,7 +149,7 @@ All URL locations should remain the same as when using the app in "production" m
 <hr />
 <br/>
 
-## Wristband Express Auth SDK
+## Wristband NestJS Auth SDK
 
 This demo app is leveraging the [Wristband nestjs-auth SDK](https://github.com/wristband-dev/nestjs-auth) for all authentication interaction in the NestJS server. Refer to that GitHub repository for more information.
 
