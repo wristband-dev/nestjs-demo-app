@@ -75,11 +75,11 @@ export class AuthController {
   async callback(@Req() req: Request, @Res() res: Response): Promise<void> {
     try {
       const callbackDataResult = await this.wristbandAuth.callback(req, res);
-      const { type, callbackData } = callbackDataResult;
+      const { type, callbackData, redirectUrl } = callbackDataResult;
 
       if (type === CallbackResultType.REDIRECT_REQUIRED) {
         // The SDK will have already invoked the redirect() function, so we just stop execution here.
-        return;
+        return res.redirect(redirectUrl);
       }
 
       const initSession = await this.initSessionAndCsrf(req, res, callbackData);
@@ -103,6 +103,7 @@ export class AuthController {
 
   @Get('logout')
   async logout(@Req() req: Request, @Res() res: Response): Promise<void> {
+    console.log('Logout request received');
     const { session } = req;
     const { refreshToken, tenantDomainName } = session;
 
@@ -111,11 +112,11 @@ export class AuthController {
     session.destroy();
 
     try {
-      await this.wristbandAuth.logout(req, res, {
+      const logoutUrl = await this.wristbandAuth.logout(req, res, {
         refreshToken,
         tenantDomainName,
-        redirectUrl: env.HOME_URL,
       });
+      res.redirect(logoutUrl);
     } catch (error) {
       console.error('Logout Error:', error);
       res

@@ -6,7 +6,6 @@ import Footer from "../partials/Footer.vue";
 import { useWristbandStore } from "../stores/wristbandStore";
 
 const { state } = useWristbandStore();
-
 const handleHelloWorld = async () => {
   try {
     const response = await apiClient.get("/hello-world");
@@ -28,10 +27,7 @@ const handleHelloWorld = async () => {
   }
 };
 </script>
-
 <!-- ============================================== -->
-<!-- ============================================== -->
-
 <template>
   <div class="relative flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
     <!-- Site header -->
@@ -40,13 +36,14 @@ const handleHelloWorld = async () => {
     <!-- Page content -->
     <main class="grow">
       <section>
-
         <div class="pt-32 pb-12 md:pt-44 md:pb-20">
           <div class="px-4 sm:px-6">
-            <PageHeader class="mb-12" title="AI for API Governance"
-              description="Enhancing API Performance with AI-Driven Detection and Remediation">
-              <span class="text-gray-300 mx-1"></span> AI Trained on 10k Public
-              APIs.
+            <PageHeader v-if="state.wristband.isAuthenticated" class="mb-12"
+              title="Hello, You've reached an authenticated route!" description="">
+              <span class="text-gray-300 mx-1"></span>
+            </PageHeader>
+            <PageHeader v-else class="mb-12" title="You're not authenticated." description="">
+              <span class="text-gray-300 mx-1"></span>
             </PageHeader>
             <div class="max-w-3xl mx-auto mb-12">
               <div class="text-center">
@@ -56,16 +53,15 @@ const handleHelloWorld = async () => {
                 <div :key="state.wristband.isAuthenticated">
                   <div v-if="state.wristband.isAuthenticated">
                     <button
-                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 border-black rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
                       @click="handleHelloWorld">
                       <span class="relative z-10">Say Hello</span>
                       <span
-                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"
-                      ></span>
+                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
                     </button>
                   </div>
                   <div v-else>
-                    <p>Loading...</p>
+                    <p></p>
                   </div>
                 </div>
               </div>
@@ -81,12 +77,11 @@ const handleHelloWorld = async () => {
 </template>
 
 <!-- ============================================== -->
-<!-- ============================================== -->
 
 <style scoped>
-  @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 
-  body {
-    font-family: "Roboto", sans-serif;
-  }
+body {
+  font-family: "Roboto", sans-serif;
+}
 </style>

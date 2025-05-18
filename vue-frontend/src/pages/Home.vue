@@ -49,7 +49,7 @@ onMounted(() => {
       <section>
         <div class="pt-32 pb-12 md:pt-44 md:pb-20">
           <div class="px-4 sm:px-6">
-            <PageHeader class="mb-12" title="NestJS Auth SDK"
+            <PageHeader class="mb-12" title="NestJS Auth Demo App"
               description="">
               <span class="text-gray-300 mx-1"></span> NestJS Auth Demo App
             </PageHeader>
@@ -58,7 +58,7 @@ onMounted(() => {
                 <div :key="state.wristband.isAuthenticated">
                   <div v-if="state.wristband.isAuthenticated">
                     <button
-                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 border-black rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
                       @click="logout"
                     >
                       <span class="relative z-10">Logout</span>
@@ -69,14 +69,11 @@ onMounted(() => {
                     <div class="pt-6 pb-2 text-center">
                       <a @click="() => router.push('/hello-world')" class="cursor-pointer text-indigo-500 hover:underline">Hello World</a>
                     </div>
-                    <div class="py-2 text-center">
-                      <a @click="() => router.push('/account')" class="cursor-pointer text-indigo-500 hover:underline">My Account</a>
-                    </div>
                   </div>
                   <div v-else>
                     <p class="text-gray-300 pt-32 pb-12 md:pt-44 md:pb-20">Test an Auth Flow:</p>
                     <button
-                      class="relative inline-flex items-center justify-center mr-4 px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 border-black rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center mr-4 px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
                       @click="() => signup()">
                       <span class="relative z-10">Signup</span>
                       <span
@@ -84,7 +81,7 @@ onMounted(() => {
                       ></span>
                     </button>
                     <button
-                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out border-2 border-black rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
                       @click="() => login()">
                       <span class="relative z-10">Login</span>
                       <span

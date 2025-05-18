@@ -3,6 +3,7 @@ import { useWristbandStore } from './stores/wristbandStore'
 
 import HelloWorld from './pages/HelloWorld.vue'
 import Home from './pages/Home.vue'
+import Logout from './pages/Logout.vue'
 
 const routerHistory = createWebHistory()
 
