@@ -13,7 +13,7 @@ const COMMON_WRISTBAND_AUTH_CONFIGURATION: Omit<
   scopes: resolveScopesEnvVar(env.WBAUTH__SCOPES),
   useCustomDomains: env.WBAUTH__USE_CUSTOM_DOMAINS === 'true',
   useTenantSubdomains: env.WBAUTH__USE_TENANT_SUBDOMAINS === 'true',
-  wristbandApplicationDomain: env.WBAUTH__APPLICATION_VANITY_DOMAIN,
+  wristbandApplicationVanityDomain: env.WBAUTH__APPLICATION_VANITY_DOMAIN,
 };
 
 export const WRISTBAND_AUTH_CONFIGURATION: AuthConfig = {

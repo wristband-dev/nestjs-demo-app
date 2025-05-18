@@ -63,7 +63,8 @@ export class AuthController {
 
   @Get('login')
   async login(@Req() req: Request, @Res() res: Response): Promise<void> {
-    return await this.wristbandAuth.login(req, res);
+    const redirectUrl = await this.wristbandAuth.login(req, res);
+    return res.redirect(redirectUrl);
   }
 
   // ////////////////////////////////////
@@ -74,15 +75,16 @@ export class AuthController {
   async callback(@Req() req: Request, @Res() res: Response): Promise<void> {
     try {
       const callbackDataResult = await this.wristbandAuth.callback(req, res);
-      const { result, callbackData } = callbackDataResult;
+      const { type, callbackData } = callbackDataResult;
 
-      if (result === CallbackResultType.REDIRECT_REQUIRED) {
+      if (type === CallbackResultType.REDIRECT_REQUIRED) {
         // The SDK will have already invoked the redirect() function, so we just stop execution here.
         return;
       }
 
-      await this.initSessionAndCsrf(req, res, callbackData);
-
+      const initSession = await this.initSessionAndCsrf(req, res, callbackData);
+      initSession;
+      console.log('Session initialized:', initSession);
       // Send the user back to the application.
       return res.redirect(
         callbackData.returnUrl || `${env.HOME_URL}/hello-world`,
@@ -109,7 +111,7 @@ export class AuthController {
     session.destroy();
 
     try {
-      return await this.wristbandAuth.logout(req, res, {
+      await this.wristbandAuth.logout(req, res, {
         refreshToken,
         tenantDomainName,
         redirectUrl: env.HOME_URL,

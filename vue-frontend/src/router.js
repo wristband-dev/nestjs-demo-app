@@ -1,14 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useWristbandStore } from './stores/wristbandStore'
 
-import Faq from './pages/Faq.vue'
 import HelloWorld from './pages/HelloWorld.vue'
 import Home from './pages/Home.vue'
-import MyAccount from './pages/MyAccount.vue'
-import Organization from './pages/Organization.vue'
-import Result from './pages/Result.vue'
-import Updates from './pages/Updates.vue'
-import Users from './pages/Users.vue'
 
 const routerHistory = createWebHistory()
 
@@ -57,34 +51,6 @@ const router = createRouter({
       path: '/hello-world',
       component: HelloWorld,
       meta: { requiresAuth: true }
-    },
-    {
-      path: '/account',
-      component: MyAccount,
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/organization',
-      component: Organization,
-      meta: { requiresAuth: true, requiresAdminRole: true }
-    },
-    {
-      path: '/users',
-      component: Users,
-      meta: { requiresAuth: true, requiresAdminRole: true }
-    },
-    {
-      path: '/updates',
-      component: Updates
-    },
-    {
-      path: '/faq',
-      component: Faq
-    },
-    {
-      path: '/result',
-      component: Result,
-      props: true
     },
     {
       // Catch-all route (for non-existent routes)

@@ -1,7 +1,5 @@
 <script setup>
 import { apiClient } from "../api/axios-client";
-import BgShapes from "../partials/BgShapes.vue";
-import VerticalLines from "../partials/VerticalLines.vue";
 import Header from "../partials/Header.vue";
 import PageHeader from "../partials/PageHeader.vue";
 import Footer from "../partials/Footer.vue";
@@ -36,9 +34,6 @@ const handleHelloWorld = async () => {
 
 <template>
   <div class="relative flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-    <BgShapes />
-    <VerticalLines />
-
     <!-- Site header -->
     <Header />
 
