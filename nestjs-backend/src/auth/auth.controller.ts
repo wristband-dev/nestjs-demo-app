@@ -63,8 +63,8 @@ export class AuthController {
 
   @Get('login')
   async login(@Req() req: Request, @Res() res: Response): Promise<void> {
-    const redirectUrl = await this.wristbandAuth.login(req, res);
-    return res.redirect(redirectUrl);
+    const authorizeUrl = await this.wristbandAuth.login(req, res);
+    res.redirect(authorizeUrl);
   }
 
   // ////////////////////////////////////
@@ -78,7 +78,6 @@ export class AuthController {
       const { type, callbackData, redirectUrl } = callbackDataResult;
 
       if (type === CallbackResultType.REDIRECT_REQUIRED) {
-        // The SDK will have already invoked the redirect() function, so we just stop execution here.
         return res.redirect(redirectUrl);
       }
 
