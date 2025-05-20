@@ -12,6 +12,19 @@ export default defineConfig(({ command, mode }) => {
   return {
     define: { "process.env": env },
     plugins: [vue()],
+    server: {
+      allowedHosts: ['.business.invotastic.com', 'localhost'],
+      cors: true,
+      port: 6001,
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3001',
+          changeOrigin: false,
+          secure: false,
+          headers: { Connection: 'keep-alive' },
+        },
+      },
+    },
     resolve: {
       alias: [
         {

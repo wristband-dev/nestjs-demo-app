@@ -1,13 +1,10 @@
 <script setup>
-import { useDark } from "@vueuse/core";
 import { useRouter } from 'vue-router';
 import { useWristbandStore } from "../stores/wristbandStore";
 
 const { clearSession, state } = useWristbandStore();
 const router = useRouter();
-const isDark = useDark({
-  selector: 'html',
-});
+
 const logout = () => {
   clearSession();
   router.push("/logout");
@@ -37,7 +34,7 @@ const logout = () => {
             <ul v-if="state.wristband.isAuthenticated" class="flex items-center sm:gap-x-3 text-sm font-medium">
               <li>
                 <button
-                  class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                  class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                   @click="logout">
                   <span class="relative z-10">Logout</span>
                   <span

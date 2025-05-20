@@ -5,18 +5,19 @@ export class SessionController {
   @Get()
   getSessionData(@Req() req, @Res() res): Promise<void> {
     const { session } = req;
-    if (!session || !session.isAuthenticated) {
-      return res.status(200).json({ isAuthenticated: false });
-    }
+
+    res.header('Cache-Control', 'no-store');
+    res.header('Pragma', 'no-cache');
 
     try {
       return res.status(200).json({
-        isAuthenticated: true,
         userId: session.userId,
         tenantId: session.tenantId,
-        identityProviderName: session.identityProviderName,
-        tenantDomainName: session.tenantDomainName,
-        roles: session.roles || [],
+        metadata: {
+          identityProviderName: session.identityProviderName,
+          tenantDomainName: session.tenantDomainName,
+          roles: session.roles || [],
+        },
       });
     } catch (error) {
       console.error('Error:', error);

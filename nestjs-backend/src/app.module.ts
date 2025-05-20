@@ -1,58 +1,57 @@
-import { ConfigModule } from '@nestjs/config';
-import { env } from 'node:process';
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { WristbandExpressAuthModule } from '@wristband/nestjs-auth';
+import { env } from 'node:process';
 
-// Wristband SDK Configurations
-import { WRISTBAND_AUTH_CONFIGURATION } from './config/wristband-auth';
-
-// Other Configurations
-import csrfConfig from './config/csrf.config';
-import sessionConfig from './config/session.config';
-import { getEnvFilePath } from './config/utils';
+// Config
+import { csrfConfig, sessionConfig, wristbandAuthConfig } from './config';
 
 // Modules
 import { AuthModule } from './auth/auth.module';
 import { CsrfModule } from './csrf/csrf.module';
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { SessionModule } from './session/session.module';
-import { SettingsModule } from './settings/settings.module';
 import { WristbandApiModule } from './wristband-api/wristband-api.module';
 
 // Middleware
-import { AuthMiddleware } from './common/middleware/auth.middleware';
-import { CsrfMiddleware } from './common/middleware/csrf.middleware';
-import { IronSessionMiddleware } from './common/middleware/iron-session.middleware';
-import { RequestTrackingMiddleware } from './common/middleware/request-tracking.middleware';
+import {
+  AuthMiddleware,
+  IronSessionMiddleware,
+  RequestTrackingMiddleware,
+} from './common/middleware';
 
 @Module({
   imports: [
     AuthModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [csrfConfig, sessionConfig],
-      envFilePath: env.NODE_ENV === 'production' ? '' : getEnvFilePath(),
+      load: [csrfConfig, sessionConfig, wristbandAuthConfig],
+      envFilePath: env.NODE_ENV === 'production' ? '' : '.env',
       ignoreEnvFile: env.NODE_ENV === 'production',
     }),
     CsrfModule,
     HelloWorldModule,
     SessionModule,
-    SettingsModule,
     WristbandApiModule,
-    WristbandExpressAuthModule.forRoot(
-      WRISTBAND_AUTH_CONFIGURATION,
-      'WristbandStandardLoginAuthService',
+    WristbandExpressAuthModule.forRootAsync(
+      {
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => {
+          return configService.get('wristbandAuth');
+        },
+        inject: [ConfigService],
+      },
+      'WristbandAuth',
     ),
   ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
+    // Apply session middleware globally
     consumer
       .apply(RequestTrackingMiddleware, IronSessionMiddleware)
       .forRoutes('*');
-    consumer
-      .apply(AuthMiddleware, CsrfMiddleware)
-      .exclude('/api/v1/auth/(.*)')
-      .forRoutes('*');
+    // Apply auth middleware to all routes except auth endpoints
+    consumer.apply(AuthMiddleware).exclude('/api/auth/(.*)').forRoutes('*');
   }
 }

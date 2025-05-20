@@ -5,7 +5,7 @@ import { Role } from '../wristband/wristband.interface';
 // Define the custom fields you want in your session
 export interface SessionData {
   accessToken: string;
-  csrfSecret: string;
+  csrfToken: string;
   expiresAt: number;
   identityProviderName: string;
   isAuthenticated: boolean;

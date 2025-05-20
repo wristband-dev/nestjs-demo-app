@@ -58,7 +58,7 @@ onMounted(() => {
                 <div :key="state.wristband.isAuthenticated">
                   <div v-if="state.wristband.isAuthenticated">
                     <button
-                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                       @click="logout"
                     >
                       <span class="relative z-10">Logout</span>
@@ -71,9 +71,8 @@ onMounted(() => {
                     </div>
                   </div>
                   <div v-else>
-                    <p class="text-gray-300 pt-32 pb-12 md:pt-44 md:pb-20">Test an Auth Flow:</p>
                     <button
-                      class="relative inline-flex items-center justify-center mr-4 px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center mr-4 px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                       @click="() => signup()">
                       <span class="relative z-10">Signup</span>
                       <span
@@ -81,7 +80,7 @@ onMounted(() => {
                       ></span>
                     </button>
                     <button
-                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center mr-4 px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                       @click="() => login()">
                       <span class="relative z-10">Login</span>
                       <span

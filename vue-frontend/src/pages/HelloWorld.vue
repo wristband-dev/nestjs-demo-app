@@ -9,17 +9,11 @@ const { state } = useWristbandStore();
 const handleHelloWorld = async () => {
   try {
     const response = await apiClient.get("/hello-world");
-
-    if (response.status !== 200 || !response.data) {
-      alert("Something went wrong trying to say hello!");
-      return;
-    }
-
     alert(response.data);
   } catch (error) {
     console.log(error);
 
-    if (error.response && error.response.status === 401) {
+    if (error.response && [401, 403].includes(error.response.status)) {
       alert("Your session expired. Please log in again to continue.");
     } else {
       alert("Something went wrong trying to say hello!");
@@ -53,7 +47,7 @@ const handleHelloWorld = async () => {
                 <div :key="state.wristband.isAuthenticated">
                   <div v-if="state.wristband.isAuthenticated">
                     <button
-                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white dark:border-white"
+                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                       @click="handleHelloWorld">
                       <span class="relative z-10">Say Hello</span>
                       <span

@@ -31,14 +31,14 @@ You can start up the the demo application in a few simple steps.
 
 ### 1) Sign up for an Wristband account.
 
-First thing is first: make sure you sign up for an Wristband account at [https://wristband.dev](https://wristband.dev).
+Make sure you sign up for an Wristband account at [https://wristband.dev](https://wristband.dev).
 
 ### 2) Provision the NestJS demo application in the Wristband Dashboard.
 
 After your Wristband account is set up, log in to the Wristband dashboard.  Once you land on the home page of the dashboard, click the button labeled "Add Demo App".  Make sure you choose the following options:
 
 - Step 1: Subject to Authenticate - Humans
-- Step 2: Client Framework - NestJS
+- Step 2: Application Framework - NestJS
 
 You can also follow the [Demo App Guide](https://docs.wristband.dev/docs/setting-up-a-demo-app) for more information.
 
@@ -117,15 +117,11 @@ If users wish to directly access the demo app Tenant-level Login Page without ha
 
 ## Entity Model
 
-The application has the Wristband identity provider enabled by default so that all users can login with an email and a password.  The application has one OAuth2 client through which users will be authenticated.  In this case, the client is a NestJS backend server.  Companies that signup with will be provisioned a tenant under the application. When a new user signs up their company, they are assigned the "Owner" role by default and have full access to their company resources.  Owners of a company can also invite new users into their company.  Invited users can be assigned either the "Owner" role or the "Viewer" role.
+The application has the Wristband identity provider enabled by default so that all users can login with an email and a password.  The application has one OAuth2 client through which users will be authenticated.  In this case, the client is a NestJS backend server.  Companies that signup with will be provisioned a tenant under the application. When a new user signs up their company, they are assigned the "Owner" role by default.
 
 ## Wristband Code Touchpoints
 
-Within the demo app code base, you can search in your IDE of choice for the text `WRISTBAND_TOUCHPOINT`.  This will show the various places in both the React frontend code and NodeJS backend code where Wristband is involved.  You will find the search results return one of a few possible comments using that search text:
-
-<br>
-<hr />
-<br/>
+Within the demo app code base, you can search in your IDE of choice for the text `WRISTBAND_TOUCHPOINT`.  This will show the various places in both the React frontend code and NodeJS backend code where Wristband is involved.
 
 ## Run the application in "dev" mode to experiment with the code and debug
 
@@ -157,14 +153,12 @@ This demo app is leveraging the [Wristband nestjs-auth SDK](https://github.com/w
 
 ## CSRF Protection
 
-Cross-Site Request Forgery (CSRF) is a security vulnerability where attackers exploit a user's authenticated session to perform unauthorized actions on a web application without their knowledge or consent. This demo app is leveraging a technique called the Double Cookie Submit Pattern to mitigate CSRF attacks by employing two cookies: a session cookie for user authentication and a CSRF token cookie containing a unique token. With each request, the CSRF token is included both in the cookie and the request payload, enabling server-side validation to prevent CSRF attacks.
+Cross Site Request Forgery (CSRF) is a security vulnerability where attackers trick authenticated users into unknowingly submitting malicious requests to your application. This demo app is leveraging a technique called the Syncrhonizer Token Pattern to mitigate CSRF attacks by employing two cookies: a session cookie for user authentication and a CSRF token cookie containing a unique token. With each request, the CSRF token is included both in the cookie and the request payload, enabling server-side validation to prevent CSRF attacks.
 
 Refer to the [OWASP CSRF Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html) for more information about this topic.
 
 > [!WARNING]
 > Your own application should take effort to mitigate CSRF attacks in addition to any Wristband authentication, and it is highly recommended to take a similar approach as this demo app to protect against thse types of attacks.
-
-Within the demo app code base, you can search in your IDE of choice for the text `CSRF_TOUCHPOINT`.  This will show the various places in both the React frontend code and NodeJS backend code where CSRF is involved.
 
 <br/>
 
