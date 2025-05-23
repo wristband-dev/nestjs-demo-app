@@ -20,9 +20,7 @@ export class IronSessionMiddleware implements NestMiddleware {
   private dangerouslyDisableSecureCookies;
 
   constructor(private readonly configService: ConfigService) {
-    this.dangerouslyDisableSecureCookies = this.configService.get<boolean>(
-      'session.dangerouslyDisableSecureCookies',
-    );
+    this.dangerouslyDisableSecureCookies = this.configService.get<boolean>('session.dangerouslyDisableSecureCookies');
     this.cookieMaxAge = this.configService.get<number>('session.cookieMaxAge');
     this.cookieSecret = this.configService.get<string>('session.cookieSecret');
   }

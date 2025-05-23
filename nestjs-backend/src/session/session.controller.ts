@@ -21,9 +21,7 @@ export class SessionController {
       });
     } catch (error) {
       console.error('Error:', error);
-      return res
-        .status(500)
-        .json({ message: 'An error occurred during the process.' });
+      return res.status(500).json({ message: 'An error occurred during the process.' });
     }
   }
 }

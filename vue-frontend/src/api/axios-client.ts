@@ -27,8 +27,8 @@ const unauthorizedAccessInterceptor = async (error) => {
       await nextTick();
     }
     
-    // Redirect to home page so user can log in again
-    router.push("/home");
+    // Redirect the user to go log in again
+    router.push("/login");
   }
 
   return Promise.reject(error);

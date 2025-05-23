@@ -11,14 +11,9 @@ import { AuthModule } from './auth/auth.module';
 import { CsrfModule } from './csrf/csrf.module';
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { SessionModule } from './session/session.module';
-import { WristbandApiModule } from './wristband-api/wristband-api.module';
 
 // Middleware
-import {
-  AuthMiddleware,
-  IronSessionMiddleware,
-  RequestTrackingMiddleware,
-} from './common/middleware';
+import { AuthMiddleware, IronSessionMiddleware, RequestTrackingMiddleware } from './common/middleware';
 
 @Module({
   imports: [
@@ -32,7 +27,6 @@ import {
     CsrfModule,
     HelloWorldModule,
     SessionModule,
-    WristbandApiModule,
     WristbandExpressAuthModule.forRootAsync(
       {
         imports: [ConfigModule],
@@ -48,10 +42,8 @@ import {
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // Apply session middleware globally
-    consumer
-      .apply(RequestTrackingMiddleware, IronSessionMiddleware)
-      .forRoutes('*');
+    consumer.apply(RequestTrackingMiddleware, IronSessionMiddleware).forRoutes('{*splat}');
     // Apply auth middleware to all routes except auth endpoints
-    consumer.apply(AuthMiddleware).exclude('/api/auth/(.*)').forRoutes('*');
+    consumer.apply(AuthMiddleware).exclude('/api/auth/*path').forRoutes('{*splat}');
   }
 }

@@ -12,9 +12,7 @@ export class CsrfService {
 
   constructor(private readonly configService: ConfigService) {
     this.cookieMaxAge = this.configService.get<number>('csrf.cookieMaxAge');
-    this.dangerouslyDisableSecureCookies = this.configService.get<boolean>(
-      'csrf.dangerouslyDisableSecureCookies',
-    );
+    this.dangerouslyDisableSecureCookies = this.configService.get<boolean>('csrf.dangerouslyDisableSecureCookies');
   }
 
   createCsrfToken() {

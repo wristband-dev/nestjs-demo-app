@@ -33,10 +33,7 @@ export class AuthMiddleware implements NestMiddleware {
 
     try {
       /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
-      const tokenData = await this.wristbandAuth.refreshTokenIfExpired(
-        refreshToken,
-        expiresAt,
-      );
+      const tokenData = await this.wristbandAuth.refreshTokenIfExpired(refreshToken, expiresAt);
       if (tokenData) {
         req.session.accessToken = tokenData.accessToken;
         // Converts the "expiresIn" seconds into a Unix timestamp in milliseconds at which the token expires.
