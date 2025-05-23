@@ -44,7 +44,7 @@ You can also follow the [Demo App Guide](https://docs.wristband.dev/docs/setting
 
 ### 3) Apply your Wristband configuration values to the NodeJS server configuration
 
-After completing demo app creation, you will be prompted with values that you should use to create environment variables for the Express server. You should see:
+After completing demo app creation, you will be prompted with values that you should use to create environment variables for the NestJS server. You should see:
 
 - `APPLICATION_VANITY_DOMAIN`
 - `CLIENT_ID`
@@ -54,7 +54,7 @@ Copy those values, then create an environment variable file on the server at: `n
 
 ### 4) Install dependencies
 
-Before attempting to run the application, you'll need to install all project dependencies for both Express and React. From the root directory of this repo, run the following to install dependencies:
+Before attempting to run the application, you'll need to install all project dependencies for both NestJS and Vue. From the root directory of this repo, run the following to install dependencies:
 
 ```bash
 npm run install-all
@@ -65,20 +65,10 @@ npm run install-all
 > [!WARNING]
 > Make sure you are in the root directory of this repository.
 
-#### Build the client application bundle
-
-Build the Vue asset bundle that will be served up by NestJS (asset bundle target location is `server/dist/`):
+The Vite dev server runs on port `6001`, and the NestJS server runs on port `3001`. All API calls made from Vue to NestJS are configured to be proxied in order to avoid CORS issues.
 
 ```bash
-npm run build
-```
-
-#### Run the NestJS server
-
-Start up the NestJS server in "production" mode. This lets NestJS serve the Vue bundle as static content from the NestJS server.  The NestJS server runs on port `6001`.
-
-```bash
-npm start
+npm run dev
 ```
 
 <br>
@@ -121,25 +111,7 @@ The application has the Wristband identity provider enabled by default so that a
 
 ## Wristband Code Touchpoints
 
-Within the demo app code base, you can search in your IDE of choice for the text `WRISTBAND_TOUCHPOINT`.  This will show the various places in both the React frontend code and NodeJS backend code where Wristband is involved.
-
-## Run the application in "dev" mode to experiment with the code and debug
-
-You can run this demo application in "dev" mode in order to actively debug or experiment with any of the code.  This will require starting up the React client application in a separate CLI from the NodeJS server.  All API calls made from React to NodeJS are configured to be proxied in order to avoid CORS issues.
-
-In one CLI, change to the `client` directory and run the following to start the Vite dev server (runs on port `6001`):
-
-```bash
-npm start
-```
-
-In a second separate CLI, change to the `server` directory and run the following to start the NodeJS server in "dev" mode (runs on port `3001`):
-
-```bash
-npm run dev
-```
-
-All URL locations should remain the same as when using the app in "production" mode.
+Within the demo app code base, you can search in your IDE of choice for the text `WRISTBAND_TOUCHPOINT`.  This will show the various places in both the Vue frontend code and NodeJS backend code where Wristband is involved.
 
 <br>
 <hr />

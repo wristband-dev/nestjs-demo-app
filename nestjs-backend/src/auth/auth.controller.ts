@@ -3,7 +3,7 @@ import { CallbackResultType, WristbandExpressAuthService } from '@wristband/nest
 import { Request, Response } from 'express';
 
 import { CsrfService } from 'src/csrf/csrf.service';
-import { CSRF_TOKEN_COOKIE_NAME, SESSION_COOKIE_NAME, SIGNUP_URL } from 'src/config/constants';
+import { CSRF_TOKEN_COOKIE_NAME, POST_CALLBACK_URL, SESSION_COOKIE_NAME, SIGNUP_URL } from 'src/config/constants';
 
 @Controller('api/auth')
 export class AuthController {
@@ -65,7 +65,7 @@ export class AuthController {
       this.csrfService.updateCsrfCookie(req, res);
 
       // Send the user back to the application.
-      return res.redirect(callbackData.returnUrl || `http://localhost:6001/hello-world`);
+      return res.redirect(callbackData.returnUrl || POST_CALLBACK_URL);
     } catch (error) {
       console.error('Callback Error:', error);
       res.status(500).json({ message: 'An error occurred during the process.' });
