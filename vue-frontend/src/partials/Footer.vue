@@ -4,8 +4,8 @@
     <div class="px-4 sm:px-6">
       <div class="max-w-3xl mx-auto">
         <div class="text-center py-8">
-          <p class="text-sm text-gray-700 dark:text-gray-400">&copy; <a class="font-medium text-indigo-500 hover:underline" href="https://apigovernance.dev/"
-            target="_blank">GovernanceAI</a> - AI enforces API Best Practices  </p>
+          <p class="text-sm text-gray-700 dark:text-gray-400">&copy; <a class="font-medium text-indigo-500 hover:underline" href="https://wristband.dev/"
+            target="_blank">Wristband</a></p>
         </div>
       </div>
     </div>

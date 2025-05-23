@@ -12,17 +12,18 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/vue-fontawesome": "^3.0.8",
-    "@vueuse/core": "^10.11.0",
+    "@vueuse/core": "^13.1.0",
     "axios": "^1.9.0",
-    "pinia": "^2.1.7",
-    "vue": "^3.4.34",
-    "vue-router": "^4.4.0"
+    "pinia": "^3.0.2",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",
+    "@types/node": "^22.15.19",
     "@vitejs/plugin-vue": "^5.2.4",
     "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.32",
+    "postcss": "^8.5.3",
     "tailwindcss": "^3.3.6",
     "vite": "^6.3.5"
   }

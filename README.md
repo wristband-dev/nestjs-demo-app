@@ -31,20 +31,20 @@ You can start up the the demo application in a few simple steps.
 
 ### 1) Sign up for an Wristband account.
 
-First thing is first: make sure you sign up for an Wristband account at [https://wristband.dev](https://wristband.dev).
+Make sure you sign up for an Wristband account at [https://wristband.dev](https://wristband.dev).
 
 ### 2) Provision the NestJS demo application in the Wristband Dashboard.
 
 After your Wristband account is set up, log in to the Wristband dashboard.  Once you land on the home page of the dashboard, click the button labeled "Add Demo App".  Make sure you choose the following options:
 
 - Step 1: Subject to Authenticate - Humans
-- Step 2: Client Framework - NestJS
+- Step 2: Application Framework - NestJS
 
 You can also follow the [Demo App Guide](https://docs.wristband.dev/docs/setting-up-a-demo-app) for more information.
 
 ### 3) Apply your Wristband configuration values to the NodeJS server configuration
 
-After completing demo app creation, you will be prompted with values that you should use to create environment variables for the Express server. You should see:
+After completing demo app creation, you will be prompted with values that you should use to create environment variables for the NestJS server. You should see:
 
 - `APPLICATION_VANITY_DOMAIN`
 - `CLIENT_ID`
@@ -54,7 +54,7 @@ Copy those values, then create an environment variable file on the server at: `n
 
 ### 4) Install dependencies
 
-Before attempting to run the application, you'll need to install all project dependencies for both Express and React. From the root directory of this repo, run the following to install dependencies:
+Before attempting to run the application, you'll need to install all project dependencies for both NestJS and Vue. From the root directory of this repo, run the following to install dependencies:
 
 ```bash
 npm run install-all
@@ -65,20 +65,10 @@ npm run install-all
 > [!WARNING]
 > Make sure you are in the root directory of this repository.
 
-#### Build the client application bundle
-
-Build the Vue asset bundle that will be served up by NestJS (asset bundle target location is `server/dist/`):
+The Vite dev server runs on port `6001`, and the NestJS server runs on port `3001`. All API calls made from Vue to NestJS are configured to be proxied in order to avoid CORS issues.
 
 ```bash
-npm run build
-```
-
-#### Run the NestJS server
-
-Start up the NestJS server in "production" mode. This lets NestJS serve the Vue bundle as static content from the NestJS server.  The NestJS server runs on port `6001`.
-
-```bash
-npm start
+npm run dev
 ```
 
 <br>
@@ -117,33 +107,11 @@ If users wish to directly access the demo app Tenant-level Login Page without ha
 
 ## Entity Model
 
-The application has the Wristband identity provider enabled by default so that all users can login with an email and a password.  The application has one OAuth2 client through which users will be authenticated.  In this case, the client is a NestJS backend server.  Companies that signup with will be provisioned a tenant under the application. When a new user signs up their company, they are assigned the "Owner" role by default and have full access to their company resources.  Owners of a company can also invite new users into their company.  Invited users can be assigned either the "Owner" role or the "Viewer" role.
+The application has the Wristband identity provider enabled by default so that all users can login with an email and a password.  The application has one OAuth2 client through which users will be authenticated.  In this case, the client is a NestJS backend server.  Companies that signup with will be provisioned a tenant under the application. When a new user signs up their company, they are assigned the "Owner" role by default.
 
 ## Wristband Code Touchpoints
 
-Within the demo app code base, you can search in your IDE of choice for the text `WRISTBAND_TOUCHPOINT`.  This will show the various places in both the React frontend code and NodeJS backend code where Wristband is involved.  You will find the search results return one of a few possible comments using that search text:
-
-<br>
-<hr />
-<br/>
-
-## Run the application in "dev" mode to experiment with the code and debug
-
-You can run this demo application in "dev" mode in order to actively debug or experiment with any of the code.  This will require starting up the React client application in a separate CLI from the NodeJS server.  All API calls made from React to NodeJS are configured to be proxied in order to avoid CORS issues.
-
-In one CLI, change to the `client` directory and run the following to start the Vite dev server (runs on port `6001`):
-
-```bash
-npm start
-```
-
-In a second separate CLI, change to the `server` directory and run the following to start the NodeJS server in "dev" mode (runs on port `3001`):
-
-```bash
-npm run dev
-```
-
-All URL locations should remain the same as when using the app in "production" mode.
+Within the demo app code base, you can search in your IDE of choice for the text `WRISTBAND_TOUCHPOINT`.  This will show the various places in both the Vue frontend code and NodeJS backend code where Wristband is involved.
 
 <br>
 <hr />
@@ -157,14 +125,12 @@ This demo app is leveraging the [Wristband nestjs-auth SDK](https://github.com/w
 
 ## CSRF Protection
 
-Cross-Site Request Forgery (CSRF) is a security vulnerability where attackers exploit a user's authenticated session to perform unauthorized actions on a web application without their knowledge or consent. This demo app is leveraging a technique called the Double Cookie Submit Pattern to mitigate CSRF attacks by employing two cookies: a session cookie for user authentication and a CSRF token cookie containing a unique token. With each request, the CSRF token is included both in the cookie and the request payload, enabling server-side validation to prevent CSRF attacks.
+Cross Site Request Forgery (CSRF) is a security vulnerability where attackers trick authenticated users into unknowingly submitting malicious requests to your application. This demo app is leveraging a technique called the Syncrhonizer Token Pattern to mitigate CSRF attacks by employing two cookies: a session cookie for user authentication and a CSRF token cookie containing a unique token. With each request, the CSRF token is included both in the cookie and the request payload, enabling server-side validation to prevent CSRF attacks.
 
 Refer to the [OWASP CSRF Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html) for more information about this topic.
 
 > [!WARNING]
 > Your own application should take effort to mitigate CSRF attacks in addition to any Wristband authentication, and it is highly recommended to take a similar approach as this demo app to protect against thse types of attacks.
-
-Within the demo app code base, you can search in your IDE of choice for the text `CSRF_TOUCHPOINT`.  This will show the various places in both the React frontend code and NodeJS backend code where CSRF is involved.
 
 <br/>
 

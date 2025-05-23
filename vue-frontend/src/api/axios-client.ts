@@ -6,19 +6,19 @@ import { useWristbandStore } from '../stores/wristbandStore';
 import { nextTick } from "vue";
 
 const apiClient = axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: 'http://localhost:6001/api/v1',
   headers: { "Content-Type": "application/json", Accept: "application/json" },
-  xsrfCookieName: "XSRF-TOKEN",
-  xsrfHeaderName: "X-XSRF-TOKEN",
+  xsrfCookieName: "CSRF-TOKEN",
+  xsrfHeaderName: "X-CSRF-TOKEN",
   withXSRFToken: true,
   withCredentials: true,
 });
 
 /* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
-// Any HTTP 401s should trigger the user to go log in again.  This happens when their
+// Any HTTP 401/403 should trigger the user to go log in again.  This happens when their
 // session cookie has expired and/or the CSRF cookie/header are missing in the request.
 const unauthorizedAccessInterceptor = async (error) => {
-  if (error.response && error.response.status === 401) {
+  if (error.response && [401, 403].includes(error.response.status)) {
     // Ensure that Pinia is active
     const pinia = getActivePinia();
     if (pinia) {
@@ -27,8 +27,8 @@ const unauthorizedAccessInterceptor = async (error) => {
       await nextTick();
     }
     
-    // Redirect to home page so user can log in again
-    router.push("/home");
+    // Redirect the user to go log in again
+    router.push("/login");
   }
 
   return Promise.reject(error);

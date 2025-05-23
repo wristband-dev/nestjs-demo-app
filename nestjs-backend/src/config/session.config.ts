@@ -1,14 +1,8 @@
 import { registerAs } from '@nestjs/config';
-import { env } from 'node:process';
-
-import { DEFAULT_SESSION_COOKIE_MAX_AGE, TRUE } from './constants';
 
 export default registerAs('session', () => ({
-  cookieMaxAge: isNaN(parseInt(env.SESSION_COOKIE_MAX_AGE, 10))
-    ? DEFAULT_SESSION_COOKIE_MAX_AGE
-    : parseInt(env.SESSION_COOKIE_MAX_AGE, 10),
-  cookieSecret: env.SESSION_COOKIE_SECRET,
-  dangerouslyDisableSecureCookies: env.DISABLE_SECURE_SESSION_COOKIES
-    ? env.DISABLE_SECURE_SESSION_COOKIES === TRUE
-    : false,
+  cookieMaxAge: 3600,
+  cookieSecret: 'dummy-Baa2vKUKRXrQgfqPjR9r2s3qABNej0Cq',
+  // NOTE: If deploying your own app to production, do not disable secure cookies.
+  dangerouslyDisableSecureCookies: true,
 }));
