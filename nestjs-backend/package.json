@@ -22,7 +22,7 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.1",
     "@nestjs/platform-express": "^11.1.1",
-    "@wristband/nestjs-auth": "^1.0.0-rc10",
+    "@wristband/nestjs-auth": "^1.0.0-rc11",
     "dotenv": "^16.5.0",
     "iron-session": "^8.0.4",
     "reflect-metadata": "^0.1.13",

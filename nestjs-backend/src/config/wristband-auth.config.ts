@@ -15,8 +15,7 @@ export default registerAs(
     loginUrl: `http://${DEMO_APP_HOST}/api/auth/login`,
     redirectUri: `http://${DEMO_APP_HOST}/api/auth/callback`,
     scopes: ['openid', 'offline_access', 'email', 'profile', 'roles'],
-    useCustomDomains: false,
-    useTenantSubdomains: false,
+    isApplicationCustomDomainActive: false,
     wristbandApplicationVanityDomain: env.APPLICATION_VANITY_DOMAIN,
   }),
 );
