@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useWristbandStore } from './stores/wristbandStore'
-import { redirectToLogin, redirectToLogout } from './utils/auth-utils';
+import { useWristbandStore, redirectToLogin, redirectToLogout } from '@wristband/vue-client-sdk-auth'
 
 import HelloWorld from './pages/HelloWorld.vue'
 import Home from './pages/Home.vue'
@@ -55,10 +54,9 @@ const router = createRouter({
 // Navigation guard for protected routes
 router.beforeEach(async (to, from, next) => {
   const wristbandStore = useWristbandStore();
-  const { state } = wristbandStore
-
+  const { isAuthenticated } = wristbandStore;
   // Redirect to Home if not authenticated.
-  if (to.path !== '/home' && to.meta.requiresAuth && !state.wristband.isAuthenticated) {
+  if (to.path !== '/home' && to.meta.requiresAuth && !isAuthenticated) {
     next({ path: '/home' });
     return;
   }

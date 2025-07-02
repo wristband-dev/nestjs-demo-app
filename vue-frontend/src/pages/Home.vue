@@ -5,13 +5,12 @@ import { useRouter } from 'vue-router';
 import Header from "../partials/Header.vue";
 import PageHeader from "../partials/PageHeader.vue";
 import Footer from "../partials/Footer.vue";
-import { useWristbandStore } from "../stores/wristbandStore";
+import { useWristbandStore } from "@wristband/vue-client-sdk-auth";
 
 const router = useRouter();
 const Show = ref(true);
 const loading = ref(false);
-
-const { clearSession, state } = useWristbandStore();
+const wristbandStore = useWristbandStore();
 const scrollTarget = ref(null);
 const scrollToTarget = () => {
   if (scrollTarget.value) {
@@ -24,7 +23,7 @@ const login = () => {
 };
 
 const logout = () => {
-  clearSession();
+  wristbandStore.clearSession();
   router.push("/logout");
 };
 
@@ -55,8 +54,8 @@ onMounted(() => {
             </PageHeader>
             <div class="max-w-3xl mx-auto mb-12">
               <div class="flex items-center justify-center space-x-3">
-                <div :key="state.wristband.isAuthenticated">
-                  <div v-if="state.wristband.isAuthenticated">
+                <div :key="wristbandStore">
+                  <div v-if="wristbandStore.isAuthenticated.value">
                     <button
                       class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                       @click="logout"

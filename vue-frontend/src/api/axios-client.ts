@@ -1,8 +1,6 @@
 import axios from "axios";
 import { getActivePinia } from 'pinia';
-
 import { router } from "../router";
-import { useWristbandStore } from '../stores/wristbandStore';
 import { nextTick } from "vue";
 
 const apiClient = axios.create({
@@ -22,8 +20,6 @@ const unauthorizedAccessInterceptor = async (error) => {
     // Ensure that Pinia is active
     const pinia = getActivePinia();
     if (pinia) {
-      const wristbandStore = useWristbandStore(pinia);
-      await wristbandStore.clearSession();
       await nextTick();
     }
     
