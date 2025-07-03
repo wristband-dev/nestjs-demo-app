@@ -134,3 +134,4 @@ export function redirectToLogout(logoutUrl: string, config: LogoutRedirectConfig
     window.location.href = resolvedUrl.toString();
   }
 }
+

@@ -4,11 +4,12 @@ import { useWristbandStore } from "@wristband/vue-client-sdk-auth";
 
 const wristbandStore = useWristbandStore();
 const router = useRouter();
-console.log("Wristband Store:", wristbandStore.isAuthenticated.value);
 
 const logout = () => {
-  wristbandStore.clearSession();
-  router.push("/logout");
+  router.push("/logout")
+};
+const login = () => {
+  router.push("/login")
 };
 </script>
 
@@ -32,12 +33,21 @@ const logout = () => {
             <h2>
               NestJS Demo App
             </h2>
-            <ul v-if="wristbandStore.isAuthenticated.value" class="flex items-center sm:gap-x-3 text-sm font-medium">
-              <li>
+            <ul class="flex items-center sm:gap-x-3 text-sm font-medium">
+              <li v-if="wristbandStore.isAuthenticated.value">
                 <button
                   class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                   @click="logout">
                   <span class="relative z-10">Logout</span>
+                  <span
+                    class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
+                </button>
+              </li>
+              <li v-else>
+                <button
+                  class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
+                  @click="login">
+                  <span class="relative z-10">Login</span>
                   <span
                     class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
                 </button>

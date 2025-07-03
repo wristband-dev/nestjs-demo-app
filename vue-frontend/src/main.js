@@ -19,6 +19,7 @@ const init = async () => {
     loginUrl: '/api/auth/login',
     logoutUrl: '/api/auth/logout',
     sessionUrl: '/api/v1/session',
+    disableRedirectOnUnauthenticated: true,
   });
   await wristbandAuth.fetchSession();
 };
