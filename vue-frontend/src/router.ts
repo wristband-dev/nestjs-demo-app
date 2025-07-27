@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useWristbandStore, redirectToLogin, redirectToLogout } from '@wristband/vue-client-sdk-auth'
+import { useWristbandStore, redirectToLogin, redirectToLogout } from '@wristband/vue-client-auth'
 
 import HelloWorld from './pages/HelloWorld.vue'
 import Home from './pages/Home.vue'
+import Tokens from './pages/Tokens.vue'
 
 const routerHistory = createWebHistory()
 const GenericComponent = { template: '<div></div>' };
@@ -41,6 +42,11 @@ const router = createRouter({
     {
       path: '/hello-world',
       component: HelloWorld,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/tokens',
+      component: Tokens,
       meta: { requiresAuth: true }
     },
     {

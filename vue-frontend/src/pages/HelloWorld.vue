@@ -3,13 +3,15 @@ import { apiClient } from "../api/axios-client";
 import Header from "../partials/Header.vue";
 import PageHeader from "../partials/PageHeader.vue";
 import Footer from "../partials/Footer.vue";
-import { useWristbandStore } from "@wristband/vue-client-sdk-auth";
+import { useWristbandStore } from "@wristband/vue-client-auth";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const wristbandStore = useWristbandStore();
 console.log("Auth status:", wristbandStore.authStatus.value);
 const handleHelloWorld = async () => {
   try {
-    const response = await apiClient.get("/hello-world");
+    const response = await apiClient.get("/v1/hello-world");
     alert(response.data);
   } catch (error) {
     console.log(error);
@@ -33,7 +35,7 @@ const handleHelloWorld = async () => {
       <section>
         <div class="pt-32 pb-12 md:pt-44 md:pb-20">
           <div class="px-4 sm:px-6">
-            <PageHeader v-if="wristbandStore.isAuthenticated" class="mb-12"
+            <PageHeader v-if="wristbandStore.isAuthenticated.value === true" class="mb-12"
               title="Hello, You've reached an authenticated route!" description="">
               <span class="text-gray-300 mx-1"></span>
             </PageHeader>
@@ -46,7 +48,7 @@ const handleHelloWorld = async () => {
               </div>
               <div class="flex items-center justify-center space-x-3">
                 <div :key="wristbandStore.isAuthenticated">
-                  <div v-if="wristbandStore.isAuthenticated === true">
+                  <div v-if="wristbandStore.isAuthenticated.value">
                     <button
                       class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                       @click="handleHelloWorld">
@@ -54,6 +56,9 @@ const handleHelloWorld = async () => {
                       <span
                         class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
                     </button>
+                    <div class="pt-6 pb-2 text-center">
+                      <a @click="() => router.push('/tokens')" class="cursor-pointer text-indigo-500 hover:underline">Tokens</a>
+                    </div>
                   </div>
                   <div v-else>
                     <p></p>

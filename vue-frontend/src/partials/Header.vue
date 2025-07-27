@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import { useWristbandStore } from "@wristband/vue-client-sdk-auth";
+import { useWristbandStore } from "@wristband/vue-client-auth";
 
 const wristbandStore = useWristbandStore();
 const router = useRouter();

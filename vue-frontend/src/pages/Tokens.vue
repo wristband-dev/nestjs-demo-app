@@ -1,41 +1,30 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { useWristbandToken } from '@wristband/vue-client-auth';
 import { useRouter } from 'vue-router';
+import { useWristbandStore } from "@wristband/vue-client-auth";
+import { fetchToken } from '../utils/auth-utils';
 
 import Header from "../partials/Header.vue";
 import PageHeader from "../partials/PageHeader.vue";
 import Footer from "../partials/Footer.vue";
-import { useWristbandStore } from "@wristband/vue-client-auth";
 
 const router = useRouter();
-const Show = ref(true);
-const loading = ref(false);
 const wristbandStore = useWristbandStore();
-const scrollTarget = ref(null);
-const scrollToTarget = () => {
-  if (scrollTarget.value) {
-    scrollTarget.value.scrollIntoView({ behavior: "smooth" });
+const { clearToken, getToken } = useWristbandToken();
+
+/* WRISTBAND_TOUCHPOINT - AUTHENTICATION */
+const getBearerToken = async () => {
+  try {
+    const token = await getToken();
+    const tokenData = await fetchToken(token);
+    alert(tokenData.accessToken);
+  } catch (error) {
+    console.error(error);
+    clearToken();
+    alert(`There was an error fetching a new access token! ${error.message}`);
   }
 };
-console.log("wristbandStore", wristbandStore);
-const login = () => {
-  router.push("/login");
-};
 
-const logout = () => {
-  wristbandStore.clearSession();
-  router.push("/logout");
-};
-
-const signup = () => {
-  router.push("/signup");
-};
-
-onMounted(() => {
-  if (Show.value) {
-    scrollToTarget();
-  }
-});
 </script>
 
 <template>
@@ -48,25 +37,28 @@ onMounted(() => {
       <section>
         <div class="pt-32 pb-12 md:pt-44 md:pb-20">
           <div class="px-4 sm:px-6">
-            <PageHeader class="mb-12" title="NestJS Auth Demo App"
-              description="">
+            <PageHeader class="mb-12" title="NestJS Auth Demo App" description="">
               <span class="text-gray-300 mx-1"></span> NestJS Auth Demo App
             </PageHeader>
             <div class="max-w-3xl mx-auto mb-12">
+              <div class="flex items-center justify-center space-x-3">
+                In Wristband, you can secure resource APIs using either a session cookie (sent automatically by the
+                browser) or an access token sent manually in the request. The useWristbandToken() composable from the
+                Vue
+                SDK provides a way to fetch and cache a token within the Vue SDK by using the getToken() function. This
+                button calls to a protected endpoint that expects a valid access token. Only admins with the "Owner"
+                role can test access tokens.
+              </div>
               <div class="flex items-center justify-center space-x-3">
                 <div :key="wristbandStore">
                   <div v-if="wristbandStore.isAuthenticated.value">
                     <button
                       class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
-                      @click="logout"
-                    >
-                      <span class="relative z-10">Logout</span>
-                      <span
-                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"
-                      ></span>
-                    </button>
+                      @click='() => getBearerToken()'>Fetch Token<span
+                    class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span></button>
                     <div class="pt-6 pb-2 text-center">
-                      <a @click="() => router.push('/hello-world')" class="cursor-pointer text-indigo-500 hover:underline">Hello World</a>
+                      <a @click="() => router.push('/hello-world')"
+                        class="cursor-pointer text-indigo-500 hover:underline">Hello World</a>
                     </div>
                   </div>
                   <div v-else>
@@ -75,16 +67,14 @@ onMounted(() => {
                       @click="() => signup()">
                       <span class="relative z-10">Signup</span>
                       <span
-                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"
-                      ></span>
+                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
                     </button>
                     <button
                       class="relative inline-flex items-center justify-center mr-4 px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
                       @click="() => login()">
                       <span class="relative z-10">Login</span>
                       <span
-                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"
-                      ></span>
+                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
                     </button>
                   </div>
                 </div>

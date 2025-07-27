@@ -1,3 +1,4 @@
+import { apiClientWithJwt } from "../api/axios-client";
 import { LoginRedirectConfig, LogoutRedirectConfig } from '../types/auth-utils';
 
 const reservedLoginQueryKeys = ['login_hint', 'return_url', 'tenant_domain', 'tenant_custom_domain'];
@@ -135,3 +136,15 @@ export function redirectToLogout(logoutUrl: string, config: LogoutRedirectConfig
   }
 }
 
+const bearerToken = (accessToken) => {
+  if (!accessToken) {
+    throw new Error('A valid access token must be provided');
+  }
+
+  return { headers: { Authorization: `Bearer ${accessToken}` } };
+};
+
+export const fetchToken = async function (accessToken) {
+  const response = await apiClientWithJwt.get(`/v1/token`, bearerToken(accessToken));
+  return response.data;
+};

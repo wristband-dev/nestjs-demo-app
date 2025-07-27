@@ -1,11 +1,17 @@
 import axios from "axios";
-import { getActivePinia } from 'pinia';
+import { getActivePinia } from "pinia";
 import { router } from "../router";
 import { nextTick } from "vue";
 
+const baseURL = "http://localhost:6001/api";
+const headers = {
+  "Content-Type": "application/json",
+  Accept: "application/json",
+};
+
 const apiClient = axios.create({
-  baseURL: 'http://localhost:6001/api/v1',
-  headers: { "Content-Type": "application/json", Accept: "application/json" },
+  baseURL,
+  headers,
   xsrfCookieName: "CSRF-TOKEN",
   xsrfHeaderName: "X-CSRF-TOKEN",
   withXSRFToken: true,
@@ -22,7 +28,7 @@ const unauthorizedAccessInterceptor = async (error) => {
     if (pinia) {
       await nextTick();
     }
-    
+
     // Redirect the user to go log in again
     router.push("/login");
   }
@@ -32,4 +38,13 @@ const unauthorizedAccessInterceptor = async (error) => {
 
 apiClient.interceptors.response.use(undefined, unauthorizedAccessInterceptor);
 
-export { apiClient };
+const apiClientWithJwt = axios.create({
+  baseURL,
+  headers,
+  xsrfCookieName: "CSRF-TOKEN",
+  xsrfHeaderName: "X-CSRF-TOKEN",
+  withXSRFToken: true,
+  withCredentials: true,
+});
+
+export { apiClient, apiClientWithJwt };
