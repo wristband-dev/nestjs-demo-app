@@ -44,9 +44,16 @@ const handleHelloWorld = async () => {
             </PageHeader>
             <div class="max-w-3xl mx-auto mb-12">
               <div class="text-center">
-                <h1 class="text-4xl font-bold mb-8">Try Saying Hi {{wristbandStore.isAuthenticated}}</h1>
+                <h1 class="text-4xl font-bold mb-8">Try Saying Hi</h1>
+              </div>
+              <div class="mb-8 flex items-center justify-center space-x-3">
+                <p>In Wristband, you can secure resource APIs using either a session cookie (sent automatically by the
+                  browser) or an access token sent manually in the request. This button triggers a call to a protected
+                  endpoint that relies on the session cookie being included automatically. Vue doesn't need to attach an
+                  access token or handle authentication headers.</p>
               </div>
               <div class="flex items-center justify-center space-x-3">
+
                 <div :key="wristbandStore.isAuthenticated">
                   <div v-if="wristbandStore.isAuthenticated.value">
                     <button
@@ -57,7 +64,8 @@ const handleHelloWorld = async () => {
                         class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
                     </button>
                     <div class="pt-6 pb-2 text-center">
-                      <a @click="() => router.push('/tokens')" class="cursor-pointer text-indigo-500 hover:underline">Tokens</a>
+                      <a @click="() => router.push('/tokens')"
+                        class="cursor-pointer text-indigo-500 hover:underline">Tokens</a>
                     </div>
                   </div>
                   <div v-else>

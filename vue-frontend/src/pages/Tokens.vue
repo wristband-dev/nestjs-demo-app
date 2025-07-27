@@ -41,13 +41,11 @@ const getBearerToken = async () => {
               <span class="text-gray-300 mx-1"></span> NestJS Auth Demo App
             </PageHeader>
             <div class="max-w-3xl mx-auto mb-12">
-              <div class="flex items-center justify-center space-x-3">
-                In Wristband, you can secure resource APIs using either a session cookie (sent automatically by the
-                browser) or an access token sent manually in the request. The useWristbandToken() composable from the
-                Vue
-                SDK provides a way to fetch and cache a token within the Vue SDK by using the getToken() function. This
-                button calls to a protected endpoint that expects a valid access token. Only admins with the "Owner"
-                role can test access tokens.
+              <div class="mb-8">
+                <p>In Wristband, you can secure resource APIs using either a session cookie (sent automatically by the
+                browser) or an access token sent manually in the request. The <code>useWristbandToken()</code> composable from the
+                Vue SDK provides a way to fetch and cache a token within the Vue SDK by using the <code>getToken()</code> function. This
+                button calls to a protected endpoint that expects a valid access token.</p>
               </div>
               <div class="flex items-center justify-center space-x-3">
                 <div :key="wristbandStore">
