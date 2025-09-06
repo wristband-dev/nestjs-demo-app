@@ -8,14 +8,13 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const wristbandStore = useWristbandStore();
-console.log("Auth status:", wristbandStore.authStatus.value);
+
 const handleHelloWorld = async () => {
   try {
     const response = await apiClient.get("/v1/hello-world");
     alert(response.data);
   } catch (error) {
-    console.log(error);
-
+    console.error("Error calling hello-world endpoint:", error);
     if (error.response && [401, 403].includes(error.response.status)) {
       alert("Your session expired. Please log in again to continue.");
     } else {

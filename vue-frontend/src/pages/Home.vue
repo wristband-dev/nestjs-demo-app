@@ -17,7 +17,7 @@ const scrollToTarget = () => {
     scrollTarget.value.scrollIntoView({ behavior: "smooth" });
   }
 };
-console.log("wristbandStore", wristbandStore);
+
 const login = () => {
   router.push("/login");
 };
