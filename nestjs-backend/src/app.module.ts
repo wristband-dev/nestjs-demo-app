@@ -11,10 +11,10 @@ import { AuthModule } from './auth/auth.module';
 import { CsrfModule } from './csrf/csrf.module';
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { SessionModule } from './session/session.module';
+import { TokenModule } from './token/token.module';
 
 // Middleware
 import { AuthMiddleware, IronSessionMiddleware, RequestTrackingMiddleware } from './common/middleware';
-
 @Module({
   imports: [
     AuthModule,
@@ -27,6 +27,7 @@ import { AuthMiddleware, IronSessionMiddleware, RequestTrackingMiddleware } from
     CsrfModule,
     HelloWorldModule,
     SessionModule,
+    TokenModule,
     WristbandExpressAuthModule.forRootAsync(
       {
         imports: [ConfigModule],
