@@ -36,8 +36,7 @@ export class AuthMiddleware implements NestMiddleware {
       const tokenData = await this.wristbandAuth.refreshTokenIfExpired(refreshToken, expiresAt);
       if (tokenData) {
         req.session.accessToken = tokenData.accessToken;
-        // Converts the "expiresIn" seconds into a Unix timestamp in milliseconds at which the token expires.
-        req.session.expiresAt = Date.now() + tokenData.expiresIn * 1000;
+        req.session.expiresAt = tokenData.expiresAt;
         req.session.refreshToken = tokenData.refreshToken;
       }
       // Save the session in order to "touch" it (even if there is no new token data).

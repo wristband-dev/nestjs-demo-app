@@ -47,8 +47,7 @@ export class AuthController {
       // for the user's app session into a session cookie.
       req.session.isAuthenticated = true;
       req.session.accessToken = callbackData?.accessToken;
-      // Convert the "expiresIn" seconds into an expiration date with the format of milliseconds from the epoch.
-      req.session.expiresAt = Date.now() + (callbackData?.expiresIn ?? 0) * 1000;
+      req.session.expiresAt = callbackData?.expiresAt;
       req.session.refreshToken = callbackData?.refreshToken;
       req.session.roles = callbackData?.userinfo.roles || [];
       req.session.userId = callbackData?.userinfo.sub;
