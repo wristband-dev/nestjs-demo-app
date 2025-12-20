@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 
-import FontAwesomeIcon from './font-awesome';
 import { router } from "./router";
 import App from "./App.vue";
 import { useWristbandStore } from "./stores/wristbandStore";
@@ -12,7 +11,6 @@ const init = async () => {
   const app = createApp(App);
   const pinia = createPinia();
   app.use(pinia);
-  app.component('font-awesome-icon', FontAwesomeIcon);
 
   // Validate session before using the router
   const wristbandStore = useWristbandStore();

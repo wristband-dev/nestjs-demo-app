@@ -1,7 +1,7 @@
 import { LoginRedirectConfig, LogoutRedirectConfig } from '../types/auth-utils';
 
-const reservedLoginQueryKeys = ['login_hint', 'return_url', 'tenant_domain', 'tenant_custom_domain'];
-const reservedLogoutQueryKeys = ['tenant_domain', 'tenant_custom_domain'];
+const reservedLoginQueryKeys = ['login_hint', 'return_url', 'tenant_name', 'tenant_custom_domain'];
+const reservedLogoutQueryKeys = ['tenant_name', 'tenant_custom_domain'];
 
 /**
  * Redirects the user to your backend server's Login Endpoint with optional configuration parameters (browser only).
@@ -26,14 +26,14 @@ const reservedLogoutQueryKeys = ['tenant_domain', 'tenant_custom_domain'];
  * });
  *
  * @example
- * // Redirect with custom return destination and tenant domain
+ * // Redirect with custom return destination and tenant name
  * await redirectToLogin('/api/auth/login', {
  *   returnUrl: 'https://app.example.com/dashboard',
- *   tenantDomain: 'acme-corp'
+ *   tenantName: 'acme-corp'
  * });
  *
  * @example
- * // Redirect with custom return destination and tenant domain
+ * // Redirect with custom return destination and tenant custom domain
  * await redirectToLogin('/api/auth/login', {
  *   returnUrl: 'https://app.example.com/dashboard',
  *   tenantCustomDomain: 'auth.acme.com'
@@ -62,7 +62,7 @@ export function redirectToLogin(loginUrl: string, config: LoginRedirectConfig = 
     const queryParams: URLSearchParams = new URLSearchParams({
       ...(config.loginHint ? { login_hint: config.loginHint } : {}),
       ...(config.returnUrl ? { return_url: encodeURI(config.returnUrl) } : {}),
-      ...(config.tenantDomain ? { tenant_domain: config.tenantDomain } : {}),
+      ...(config.tenantName ? { tenant_name: config.tenantName } : {}),
       ...(config.tenantCustomDomain ? { tenant_custom_domain: config.tenantCustomDomain } : {}),
     });
 
@@ -90,13 +90,13 @@ export function redirectToLogin(loginUrl: string, config: LoginRedirectConfig = 
  * await redirectToLogout('/api/auth/logout');
  *
  * @example
- * // Redirect with tenant domain parameter
+ * // Redirect with tenant name parameter
  * await redirectToLogout('/api/auth/logout', {
- *   tenantDomain: 'acme-corp'
+ *   tenantName: 'acme-corp'
  * });
  *
  * @example
- * // Redirect with tenant domain parameter
+ * // Redirect with tenant custom domain parameter
  * await redirectToLogout('/api/auth/logout', {
  *   tenantCustomDomain: 'auth.acme.com'
  * });
@@ -122,7 +122,7 @@ export function redirectToLogout(logoutUrl: string, config: LogoutRedirectConfig
     }
 
     const queryParams: URLSearchParams = new URLSearchParams({
-      ...(config.tenantDomain ? { tenant_domain: config.tenantDomain } : {}),
+      ...(config.tenantName ? { tenant_name: config.tenantName } : {}),
       ...(config.tenantCustomDomain ? { tenant_custom_domain: config.tenantCustomDomain } : {}),
     });
 
