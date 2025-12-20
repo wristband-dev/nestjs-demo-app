@@ -1,63 +1,169 @@
 <script setup>
+import { ref } from "vue";
 import { apiClient } from "../api/axios-client";
-import Header from "../partials/Header.vue";
-import PageHeader from "../partials/PageHeader.vue";
-import Footer from "../partials/Footer.vue";
+import Footer from "../components/Footer.vue";
+import Header from "../components/Header.vue";
+import PageHeader from "../components/PageHeader.vue";
+import ResponseBox from "../components/ResponseBox.vue";
+import TabSelectorButton from "../components/TabSelectorButton.vue";
 import { useWristbandStore } from "../stores/wristbandStore";
+import { useWristbandToken } from "../composables/useWristbandToken";
 
 const { state } = useWristbandStore();
-const handleHelloWorld = async () => {
+const { getToken, error: tokenError, isLoading: tokenLoading } = useWristbandToken();
+
+const activeTab = ref('cookie');
+const cookieMessage = ref(null);
+const tokenMessage = ref(null);
+const cookieLoading = ref(false);
+
+const handleHelloWithCookie = async () => {
+  cookieLoading.value = true;
   try {
-    const response = await apiClient.get("/hello-world");
-    alert(response.data);
+    cookieMessage.value = null;
+    const response = await apiClient.get("/v1/hello-with-cookie");
+    cookieMessage.value = response.data;
   } catch (error) {
     console.log(error);
 
     if (error.response && [401, 403].includes(error.response.status)) {
-      alert("Your session expired. Please log in again to continue.");
+      cookieMessage.value = "Your session expired. Please log in again to continue.";
     } else {
-      alert("Something went wrong trying to say hello!");
+      cookieMessage.value = "Something went wrong trying to say hello!";
+    }
+  } finally {
+    cookieLoading.value = false;
+  }
+};
+
+const handleHelloWithToken = async () => {
+  try {
+    tokenMessage.value = null;
+    const token = await getToken();
+    
+    if (!token) {
+      tokenMessage.value = "Unable to get access token. Please try logging in again.";
+      return;
+    }
+
+    const response = await apiClient.get("/v1/hello-with-token", {
+      headers: { 'Authorization': `Bearer ${token}` },
+    });
+    tokenMessage.value = response.data;
+  } catch (error) {
+    console.log(error);
+
+    if (error.response && [401, 403].includes(error.response.status)) {
+      tokenMessage.value = "Your token expired. Please refresh your token or log in again.";
+    } else {
+      tokenMessage.value = "Something went wrong trying to say hello with token!";
     }
   }
 };
 </script>
-<!-- ============================================== -->
+
 <template>
-  <div class="relative flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-    <!-- Site header -->
+  <div class="flex flex-col min-h-screen bg-white dark:bg-slate-900">
     <Header />
 
-    <!-- Page content -->
-    <main class="grow">
-      <section>
-        <div class="pt-32 pb-12 md:pt-44 md:pb-20">
-          <div class="px-4 sm:px-6">
-            <PageHeader v-if="state.wristband.isAuthenticated" class="mb-12"
-              title="Hello, You've reached an authenticated route!" description="">
-              <span class="text-gray-300 mx-1"></span>
-            </PageHeader>
-            <PageHeader v-else class="mb-12" title="You're not authenticated." description="">
-              <span class="text-gray-300 mx-1"></span>
-            </PageHeader>
-            <div class="max-w-3xl mx-auto mb-12">
-              <div class="text-center">
-                <h1 class="text-4xl font-bold mb-8">Try Saying Hi</h1>
-              </div>
-              <div class="flex items-center justify-center space-x-3">
-                <div :key="state.wristband.isAuthenticated">
-                  <div v-if="state.wristband.isAuthenticated">
-                    <button
-                      class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-gray-800 dark:border-pink-500"
-                      @click="handleHelloWorld">
-                      <span class="relative z-10">Say Hello</span>
-                      <span
-                        class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
-                    </button>
-                  </div>
-                  <div v-else>
-                    <p></p>
-                  </div>
+    <main class="grow pt-24 pb-12">
+      <section class="mx-auto max-w-4xl px-6">
+        <PageHeader 
+          v-if="state.wristband.isAuthenticated" 
+          class="my-12"
+          title="This is an authenticated page!">
+        </PageHeader>
+        <PageHeader 
+          v-else 
+          class="my-12" 
+          title="You're not authenticated.">
+        </PageHeader>
+
+        <div class="my-8">
+          <!-- Loading State -->
+          <div v-if="state.wristband.isLoading">
+            <h2 class="text-xl font-semibold text-black dark:text-white">Loading...</h2>
+          </div>
+
+          <!-- Authenticated Content -->
+          <div v-else-if="state.wristband.isAuthenticated" class="flex flex-col gap-2 w-full">
+            <hr class="my-2 border-gray-200 dark:border-gray-700" />
+            
+            <!-- Tab Selector -->
+            <div class="flex border-b border-gray-200 dark:border-gray-700 mb-4">
+              <TabSelectorButton
+                title="API Route - Session Cookie"
+                :isActive="activeTab === 'cookie'"
+                @click="activeTab = 'cookie'"
+              />
+              <TabSelectorButton
+                title="API Route - Access Token"
+                :isActive="activeTab === 'token'"
+                @click="activeTab = 'token'"
+              />
+            </div>
+
+            <!-- Tab Content -->
+            <div class="flex flex-col gap-2 w-full">
+              <!-- Cookie Tab -->
+              <div v-if="activeTab === 'cookie'" class="flex flex-col gap-4">
+                <h2 class="font-bold text-md mb-1 text-black dark:text-white">Using Session Cookie From Browser</h2>
+                <p class="my-2 text-black dark:text-white">
+                  When the button below is clicked, the browser automatically sends the session cookie in the request to the API
+                  route. The auth guard will protect this API using the SESSION strategy before allowing access.
+                </p>
+                
+                <div class="flex justify-center">
+                  <button
+                    class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-pink-500 max-w-md w-full"
+                    @click="handleHelloWithCookie"
+                    :disabled="cookieLoading">
+                    <span class="relative z-10">
+                      {{ cookieLoading ? 'Loading...' : 'Test Hello World' }}
+                    </span>
+                    <span
+                      class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
+                  </button>
                 </div>
+
+                <ResponseBox 
+                  v-if="cookieMessage" 
+                  :message="cookieMessage" 
+                />
+              </div>
+
+              <!-- Token Tab -->
+              <div v-if="activeTab === 'token'" class="flex flex-col gap-4">
+                <h2 class="font-bold text-md mb-1 text-black dark:text-white">Using Access Tokens From Browser</h2>
+                <p class="my-2 text-black dark:text-white">
+                  When the button below is clicked, the getToken() function will fetch and
+                  cache the access token. Then, the access token is added to the Authorization header in the request to the API
+                  route. The auth guard will protect this API using the JWT strategy before allowing access.
+                </p>
+
+                <div class="flex justify-center">
+                  <button
+                    class="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium transition duration-300 ease-out rounded-full shadow-md group dark:bg-gray-800 dark:text-white border border-pink-500 max-w-md w-full"
+                    @click="handleHelloWithToken"
+                    :disabled="tokenLoading">
+                    <span class="relative z-10">
+                      {{ tokenLoading ? 'Loading...' : 'Test Hello World' }}
+                    </span>
+                    <span
+                      class="absolute inset-0 w-full h-full bg-indigo-500 transition-transform duration-500 ease-out transform scale-0 group-hover:scale-100 dark:bg-white opacity-20 rounded-full"></span>
+                  </button>
+                </div>
+
+                <ResponseBox 
+                  v-if="tokenMessage" 
+                  :message="tokenMessage" 
+                />
+
+                <ResponseBox 
+                  v-if="tokenError" 
+                  title="Token Error:" 
+                  :message="tokenError" 
+                />
               </div>
             </div>
           </div>
@@ -65,17 +171,13 @@ const handleHelloWorld = async () => {
       </section>
     </main>
 
-    <!-- Site footer -->
     <Footer />
   </div>
 </template>
 
-<!-- ============================================== -->
-
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
-
-body {
-  font-family: "Roboto", sans-serif;
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>

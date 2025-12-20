@@ -3,9 +3,12 @@ module.exports = {
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
-  darkMode: 'class',
+  darkMode: 'media',
   theme: {
     extend: {
+      colors: {
+        ['pink-500']: '#e61eac',
+      },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
         'inter-tight': ['Inter Tight', 'sans-serif']

@@ -36,7 +36,7 @@ const router = createRouter({
       beforeEnter: () => redirectToLogout('/api/auth/logout'),
     },
     {
-      path: '/home',
+      path: '/',
       component: Home,
     },
     {
@@ -47,7 +47,7 @@ const router = createRouter({
     {
       // Catch-all route (for non-existent routes)
       path: '/:pathMatch(.*)*',
-      redirect: '/home'
+      redirect: '/'
     }
   ]
 })
@@ -58,8 +58,8 @@ router.beforeEach(async (to, from, next) => {
   const { state } = wristbandStore
 
   // Redirect to Home if not authenticated.
-  if (to.path !== '/home' && to.meta.requiresAuth && !state.wristband.isAuthenticated) {
-    next({ path: '/home' });
+  if (to.path !== '/' && to.meta.requiresAuth && !state.wristband.isAuthenticated) {
+    next({ path: '/' });
     return;
   }
 
