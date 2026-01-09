@@ -23,7 +23,7 @@
     "@nestjs/core": "^11.1.9",
     "@nestjs/platform-express": "^11.1.9",
     "@nestjs/serve-static": "^5.0.4",
-    "@wristband/nestjs-auth": "^1.0.0",
+    "@wristband/nestjs-auth": "^1.0.1",
     "dotenv": "^16.6.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
