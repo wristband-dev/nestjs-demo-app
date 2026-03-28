@@ -38,7 +38,7 @@ export class AuthController {
       // fields for the user's app session into a session cookie.
       req.session.fromCallback(callbackData, {
         email: callbackData.userinfo.email,
-        roles: callbackData.userinfo.roles || []
+        roles: callbackData.userinfo.roles || [],
       });
       await req.session.save();
 

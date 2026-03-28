@@ -20,10 +20,10 @@ const imports = [
   ConfigModule.forRoot({
     isGlobal: true,
     load: [authConfig, authGuardConfig, sessionConfig],
-    envFilePath: '.env',  // Always read from .env for demo purposes only
+    envFilePath: '.env', // Always read from .env for demo purposes only
 
     /*
-     * NOTE: In production, use environment variables from your deployment platform (e.g., AWS, 
+     * NOTE: In production, use environment variables from your deployment platform (e.g., AWS,
      * Heroku, Docker) instead of .env files. Only load .env files in development environments.
      *
      * For example:
@@ -56,7 +56,7 @@ if (env.NODE_ENV === 'production') {
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'static'),
       exclude: ['/api'],
-    })
+    }),
   );
 }
 
