@@ -11,13 +11,16 @@ import '@wristband/nestjs-auth/jwt';
  * Configuration for the Wristband authentication client that handles OAuth flows (login, callback, logout)
  * and create auth guards.
  */
-export const authConfig = registerAs('wristbandAuth', (): AuthConfig => ({
-  clientId: env.CLIENT_ID,
-  clientSecret: env.CLIENT_SECRET,
-  dangerouslyDisableSecureCookies: true, // IMPORTANT: Only for local development. Remove in production!!
-  scopes: ['openid', 'offline_access', 'email', 'profile', 'roles'],
-  wristbandApplicationVanityDomain: env.APPLICATION_VANITY_DOMAIN,
-}));
+export const authConfig = registerAs(
+  'wristbandAuth',
+  (): AuthConfig => ({
+    clientId: env.CLIENT_ID,
+    clientSecret: env.CLIENT_SECRET,
+    dangerouslyDisableSecureCookies: true, // IMPORTANT: Only for local development. Remove in production!!
+    scopes: ['openid', 'offline_access', 'email', 'profile', 'roles'],
+    wristbandApplicationVanityDomain: env.APPLICATION_VANITY_DOMAIN,
+  }),
+);
 
 const sessionOptions: SessionOptions = {
   secrets: 'dummyval-b5c1-463a-812c-0d8db87c0ec5', // IMPORTANT: In production, use a strong secret!!
@@ -33,7 +36,10 @@ export const sessionConfig = registerAs('wristbandSession', (): SessionOptions =
 /**
  * Auth guard configuration. Uses the same sessionOptions to ensure consistency.
  */
-export const authGuardConfig = registerAs('wristbandAuthGuard', (): AuthGuardConfig => ({
-  authStrategies: ['JWT', 'SESSION'],
-  sessionConfig: { sessionOptions },
-}));
+export const authGuardConfig = registerAs(
+  'wristbandAuthGuard',
+  (): AuthGuardConfig => ({
+    authStrategies: ['JWT', 'SESSION'],
+    sessionConfig: { sessionOptions },
+  }),
+);
