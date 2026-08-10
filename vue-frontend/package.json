@@ -9,22 +9,22 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
-    "@vueuse/core": "^13.1.0",
-    "axios": "^1.13.2",
-    "pinia": "^3.0.2",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.1"
+    "@vueuse/core": "^14.4.0",
+    "axios": "^1.19.0",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.41",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@tailwindcss/forms": "^0.5.7",
-    "@types/node": "^22.15.19",
-    "@vitejs/plugin-vue": "^5.2.4",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^3.3.6",
-    "vite": "^6.4.1"
+    "@tailwindcss/forms": "^0.5.11",
+    "@types/node": "^22.20.1",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "autoprefixer": "^10.5.4",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^3.4.19",
+    "vite": "^7.3.6"
   }
 }
